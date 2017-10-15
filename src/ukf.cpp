@@ -324,4 +324,10 @@ void UKF::UpdateUKF(MeasurementPackage meas_package, MatrixXd Zsig, int n_z){
 
   x_ = x_ + K * z_diff;
   P_ = P_ - K * S * K.transpose();
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
+    NIS_radar_ = z.transpose() * S.inverse() * z;
+  }
+  else if (meas_package.sensor_type_ == MeasurementPackage::LASER){ // Lidar
+    NIS_laser_ = z.transpose() * S.inverse() * z;
+  }
 }
