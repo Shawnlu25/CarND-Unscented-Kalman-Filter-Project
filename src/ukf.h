@@ -62,16 +62,24 @@ public:
   int n_x_;
 
   ///* Augmented state dimension
-  int n_aug_;
+  int n_aug_;  
+
+  ///* Sgima points dimension
+  int n_sig_;
+
 
   ///* Sigma point spreading parameter
   double lambda_;
 
 
+  MatrixXd R_radar_;
+  MatrixXd R_lidar_;
   /**
    * Constructor
    */
   UKF();
+
+  void NormalizeAngle(double *ang);
 
   /**
    * Destructor
@@ -102,6 +110,11 @@ public:
    * @param meas_package The measurement at k+1
    */
   void UpdateRadar(MeasurementPackage meas_package);
+
+  /**
+   * Update states from sigma points generated from measearement package
+  */
+  void UpdateUKF(MeasurementPackage meas_package, MatrixXd Zsig, int n_z);
 };
 
 #endif /* UKF_H */
